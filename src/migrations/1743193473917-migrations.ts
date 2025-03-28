@@ -97,6 +97,6 @@ export class Migrations1743193473917 implements MigrationInterface {
     //both of the methods have access to an instanceof query runner
     //it's a type RM class responsible for runnning queries
     // in general there are two approaches to migrations in type RM
-    ///we can type plane SQL queries or use type migrations API
+    //we can type plane SQL queries or use type migrations API
     //in this video i will show the second approach
 }

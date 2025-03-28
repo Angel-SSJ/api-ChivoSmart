@@ -1,13 +1,13 @@
-import {
+{/*import {
   isBoolean,
   isNotEmpty,
   isNumber,
   isString,
   validateSync,
-} from 'class-validator';
+} from class-validator;
 
-//class validator decorators
-class EnvivonmentVariables {
+class validator decorators
+class EnviromentVariables {
   @IsNotEmpty()
   @IsNumber()
   APP_PORT: number;
@@ -58,3 +58,4 @@ export function validate(config: Record<string,unknown>){
   return validatedConfig;
 
 }
+*/}

@@ -32,7 +32,7 @@ export class RecipeService {
 
   async updateDescription(id:string, description:string){
     const recipeIndex= this._recipes.findIndex(r=>r.id==id);
-    if(!recipeIndex<0){
+    if(recipeIndex < 0){
       throw new HttpException('Notofund',HttpStatus.NOT_FOUND);
     }
     this._recipes[recipeIndex]={...this._recipes[recipeIndex],description};

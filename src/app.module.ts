@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
-import { RecipeModule } from './recipe/recipe.module';
-import { ConfigModule} from '@nestjs/config';
-import { validate } from './recipe/config/env.validation';
+//import {AppController} from './app.controller'
+import { RecipeController } from './recipe/recipe.controller';
+import { RecipeService } from './recipe/recipe.service';
+//import { RecipeModule } from './recipe/recipe.module';
+//import { ConfigModule} from '@nestjs/config';
+//import { validate } from './recipe/config/env.validation';
 
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true, validate }),
-    RecipeModule,
+  controllers:[RecipeController],
+  providers:[RecipeService],
+
+  //imports: [],
+
+
+
+    //ConfigModule.forRoot({ isGlobal: true, validate }),
+    //RecipeModule,
     //TypeOrmModule.forRootAsync({
     //inject:[ConfigService],
     //useFactory: [configService: ConfigService] => ({
@@ -35,9 +44,9 @@ import { validate } from './recipe/config/env.validation';
     //logging:true,
     //})
 
-  ],
-  controllers:[],
-  providers:[],
+ // ],
+//  controllers:[],
+  //providers:[],
 
 
 

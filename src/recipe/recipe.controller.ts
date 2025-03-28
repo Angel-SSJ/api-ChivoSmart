@@ -31,8 +31,8 @@ export class RecipeController {
 
 
   @Patch('/:id')
-  async updateDescription(@Body(){description}: UpdatedescriptionDto, @Param('id') id:string){
-    return await this.recipeService.updateDescription(id,description);
+  async updateDescription(@Body() descriptionDto: UpdatedescriptionDto, @Param('id') id:string){
+    return await this.recipeService.updateDescription(id,descriptionDto.description);
   }
 
   @Delete('/:id')

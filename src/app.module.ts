@@ -2,14 +2,32 @@ import { Module } from '@nestjs/common';
 //import {AppController} from './app.controller'
 import { RecipeController } from './recipe/recipe.controller';
 import { RecipeService } from './recipe/recipe.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RecipeModule } from './recipe/recipe.module';
+import { Ingredient, Recipe } from './recipe/entity/recipe';
 //import { RecipeModule } from './recipe/recipe.module';
 //import { ConfigModule} from '@nestjs/config';
 //import { validate } from './recipe/config/env.validation';
 
 
 @Module({
-  controllers:[RecipeController],
-  providers:[RecipeService],
+  imports:[
+    RecipeModule,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username:'root',
+      password:'password',
+      database:'app',
+      entities:[Recipe,Ingredient],
+      synchronize:true,
+      logging:true,
+    }),
+  ],
+  // DONT USE IN PRODUCTION
+  controllers:[],
+  providers:[],
 
   //imports: [],
 

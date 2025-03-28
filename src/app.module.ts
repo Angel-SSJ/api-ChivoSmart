@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 //import {AppController} from './app.controller'
 import { RecipeController } from './recipe/recipe.controller';
 import { RecipeService } from './recipe/recipe.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeModule } from './recipe/recipe.module';
 import { Ingredient, Recipe } from './recipe/entity/recipe';
+import { validate } from './config/env.validation';
 //import { RecipeModule } from './recipe/recipe.module';
 //import { ConfigModule} from '@nestjs/config';
 //import { validate } from './recipe/config/env.validation';
@@ -12,23 +14,27 @@ import { Ingredient, Recipe } from './recipe/entity/recipe';
 
 @Module({
   imports:[
+    ConfigModule.forRoot({isGlobal:true, validate}),
     RecipeModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username:'root',
-      password:'password',
-      database:'app',
-      entities:[Recipe,Ingredient],
-      synchronize:true,
-      logging:true,
+    TypeOrmModule.forRootAsync({
+      imports:[ConfigModule],
+      inject: [ConfigService],
+      useFactory:(configService: ConfigService)=>({
+        type:'mysql',
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
+        entities:[Recipe, Ingredient],
+        synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
+        logging: configService.get<boolean>('DB_LOGGING'),
+      })
     }),
   ],
-  // DONT USE IN PRODUCTION
   controllers:[],
   providers:[],
-
+// DONT USE IN PRODUCTION
   //imports: [],
 
 

@@ -1,12 +1,12 @@
-{/*import {
-  isBoolean,
-  isNotEmpty,
-  isNumber,
-  isString,
+import {
+  IsBoolean, IsNotEmpty,
+   IsNumber,
+  IsString,
   validateSync,
-} from class-validator;
+} from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 
-class validator decorators
+
 class EnviromentVariables {
   @IsNotEmpty()
   @IsNumber()
@@ -58,4 +58,4 @@ export function validate(config: Record<string,unknown>){
   return validatedConfig;
 
 }
-*/}
+

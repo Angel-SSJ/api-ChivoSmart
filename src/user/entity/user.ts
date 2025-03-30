@@ -1,4 +1,16 @@
-import {Entity, PrimaryGeneratedColumn, Column,OneToMany, GeneratedColumn} from 'typeorm'
+import {Entity, PrimaryGeneratedColumn, Column,OneToMany,} from 'typeorm'
+import {
+  IsDateString,
+  IsEmail,
+  IsISO8601,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
+import { NotificationsDto, UserSessionsDto } from '../dto/userDto';
 
 @Entity({name:'users'})
 export class User {
@@ -33,21 +45,33 @@ export class User {
   @Column()
   updated_at:Date;
 
+  /*
+  @OneToMany(()=>UserPreference, user_preferences_id=> user_preferences_id.user_id, {cascade:true, eager:true})
+  user_preferences_id:UserPreference[]
+
+  @OneToMany(()=>UserSessions, user_sessions_id=> user_sessions_id.user_id, {cascade:true, eager:true})
+  user_sessions_id:UserSessions[]
+
+  @OneToMany(()=>Notifications,user_notifications_id=>user_notifications_id.user_id, {cascade:true, eager:true})
+  user_notifications_id:Notifications[]
+  */
+
 // profile_picture:en duda, talvez sea uuid
 // fcm_token:En duda, no se si se va a usar como string o que / es string
 }
 
+/*
 @Entity({name:'user_preferences'})
 export class UserPreference{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
   //TODO: ver como se puede vincular con id de user.
-  @OneToMany(()=>User, user_id=>user_id.id, {cascade:true, eager:true})
-  user_id:id[];
+  @OneToMany(()=>User, (user_id)=>user_id.user_preferences_id, {cascade:true, eager:true})
+  user_id:User;
 
-  @Column()
-  theme:string;
+  //@Column()
+  //theme:string;
 
   @Column()
   suggestion_frequency:string;
@@ -68,9 +92,9 @@ export class UserSessions{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
-//TODO: ver como se puede vincular con id de user.
-  @Column()
-  user_id:string;
+
+  @OneToMany(()=>User, (user_id)=>user_id.user_sessions_id, {cascade:true, eager:true})
+  user_id:User;
 
   @Column()
   date:Date;
@@ -95,17 +119,15 @@ export class Suggestions{
   @Column()
   description:string;
 
-  //TODO: tengo que ver que hago con content
   @Column()
-  content:string; // a json that can contains multiple information
+  content:JSON; // a json that can contains multiple information
 
 
   @Column()
   suggestion_type:string
 
-  //TODO: tengo que ver que hago con frequency
   @Column()
-  frequency:string;
+  frequency:number;
 
   @Column()
   start_date:Date;
@@ -129,9 +151,8 @@ export class Notifications{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
-  //TODO: ver como se puede vincular con id de user.
-  @Column()
-  user_id:string
+  @OneToMany(()=>User, (user_id)=>user_id.user_notifications_id, {cascade:true, eager:true})
+  user_id:User;
 
   @Column()
   title:string
@@ -142,7 +163,6 @@ export class Notifications{
   @Column()
   description:string;
 
-  //TODO: tengo que ver que hago con content
   @Column()
   data:string; // a json that can contains multiple information
 
@@ -157,3 +177,4 @@ export class Notifications{
   @Column()
   updated_at:Date;
 }
+ */

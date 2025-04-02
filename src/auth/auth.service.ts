@@ -4,10 +4,12 @@ import { UserService } from '../users/user.service';
 import { RegisterDto } from './Dto/registerDto';
 import * as bcrypt from 'bcryptjs'
 import { LoginDto } from './Dto/loginDto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-constructor(private readonly userService: UserService){}
+constructor(private readonly userService: UserService,
+            private readonly jwtService:JwtService){}
 
 
   async register({first_name, last_name,email,password,confirm_password }:RegisterDto){
@@ -26,6 +28,7 @@ constructor(private readonly userService: UserService){}
       password: await bcrypt.hash(password, 10)
     })
 
+    return user
   }
 
   async login({email,password }:LoginDto){
@@ -35,6 +38,12 @@ constructor(private readonly userService: UserService){}
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if(!isPasswordValid){throw new UnauthorizedException('password is wrong'); }
+
+    const payload={email:user.email, sub:user.id};
+    return{
+      access_token: await this.jwtService.signAsync(payload),
+      email
+    }
 
   }
 

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
-import { UserModule } from '../src/user/user.module';
+import { UserModule } from '../src/users/user.module';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication<App>;

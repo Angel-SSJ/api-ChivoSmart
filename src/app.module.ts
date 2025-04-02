@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
+import { UserController } from './users/user.controller';
+import { UserService } from './users/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { User } from './user/entity/user';
+import { UserModule } from './users/user.module';
+import { Users } from './users/entity/users';
 import { validate } from './config/env.validation';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -24,12 +25,13 @@ import { validate } from './config/env.validation';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User],
+        entities: [Users],
         synchronize: false,
         // configService.get<boolean>('DB_SYNCHRONIZATION'),
         logging: configService.get<boolean>('DB_LOGGING'),
       })
     }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],

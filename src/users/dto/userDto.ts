@@ -1,16 +1,16 @@
 import { ValidateNested,IsJSON,MinLength,IsString,IsUUID, IsNotEmpty,IsEmail,IsISO8601, IsDateString,MaxLength} from 'class-validator';
-import {Type} from 'class-transformer'
+import { Transform, Type } from 'class-transformer';
 
-export class userDto{
+export class UserDto {
   @IsUUID()
   id: string;
-
+  @Transform(({value})=> value.trim())
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
+  first_name: string;
 
-  firstName_name: string;
-
+  @Transform(({value})=> value.trim())
   @IsNotEmpty()
   @IsString()
   last_name: string;
@@ -19,42 +19,46 @@ export class userDto{
   @IsEmail()
   email: string;
 
-  @IsString
+  @Transform(({value})=> value.trim())
+  @IsString()
   @MinLength(8)
   password: string;
 
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
-  birthday: Date;
+  //@IsISO8601(undefined,{each:true})
+  //@IsDateString(undefined,{each:true})
+  //@MaxLength(50, {each:true})
+  //@Transform(birthday => moment(birthday).format('DD/MM/YY')
+  //birthday: Date;
 
 
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
-  created_at:Date;
+  //@IsISO8601(undefined,{each:true})
+  //@IsDateString(undefined,{each:true})
+  //@MaxLength(50, {each:true})
+  //created_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
-  deleted_at:Date;
+  //@IsISO8601(undefined,{each:true})
+  //@IsISO8601(undefined,{each:true})
+  //@IsDateString(undefined,{each:true})
+  //@MaxLength(50, {each:true})
+  //deleted_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
-  updated_at:Date;
+  //@IsISO8601(undefined,{each:true})
+  //@IsISO8601(undefined,{each:true})
+  //@IsDateString(undefined,{each:true})
+  //@MaxLength(50, {each:true})
+ // updated_at:Date;
 
-  @ValidateNested({each:true})
-  @Type(()=>UserPreferenceDto)
-  user_preferences_id:UserPreferenceDto[]
+ //@ValidateNested({each:true})
+  //@Type(()=>UserPreferenceDto)
+  //user_preferences_id:UserPreferenceDto[]
 
-  @Type(()=>UserSessionsDto)
-  user_sessions_id:UserSessionsDto[]
+  //@Type(()=>UserSessionsDto)
+  //user_sessions_id:UserSessionsDto[]
 
-  @Type(()=>NotificationsDto)
-  user_notifications_id:NotificationsDto[]
+  //@Type(()=>NotificationsDto)
+  //user_notifications_id:NotificationsDto[]
 }
 
 

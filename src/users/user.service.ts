@@ -1,22 +1,33 @@
 import { HttpException, HttpStatus, Injectable, } from '@nestjs/common';
-import { User } from './entity/user';
+import { Users } from './entity/users';
 import { Repository } from 'typeorm';
-import{userDto, NotificationsDto, UserPreferenceDto, UserSessionsDto, SuggestionsDto}  from './dto/userDto';
+import{UserDto, NotificationsDto, UserPreferenceDto, UserSessionsDto, SuggestionsDto}  from './dto/userDto';
 import { InjectRepository } from '@nestjs/typeorm';
 
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+  constructor(
+    @InjectRepository(Users)
+    private readonly userRepository:Repository<Users>){}
+
+
+  async createUser(user):Promise<void>{
+    await this.userRepository.save(user);
+  }
+
+  async findOneByEmail(email:string){
+    return this.userRepository.findOneBy({email})
   }
 
 
-  async getUsers(): Promise<User[]>{
+
+  async getUsers(): Promise<Users[]>{
 
     return this.userRepository.find();
   }
 
-  async getUser(id:string):Promise<User>{
+  async getUser(id:string):Promise<Users>{
     const user = await this.userRepository.findOne({where:{id}});
     if(!user){
       throw new HttpException('NotFound', HttpStatus.NOT_FOUND)
@@ -24,9 +35,7 @@ export class UserService {
     return user;
   }
 
-  async createUser(user:userDto):Promise<void>{
-    await this.userRepository.save(user);
-  }
+
 
   async deleteUser(id:string){
     await this.userRepository.delete({id});
@@ -37,16 +46,16 @@ export class UserService {
 
 /*
 export class UserPreferencesService {
-  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+  constructor(@InjectRepository(UserEntity) private userRepository:Repository<UserEntity>){
   }
 
 
-  async getUsersPreferences(): Promise<User[]>{
+  async getUsersPreferences(): Promise<UserEntity[]>{
 
     return this.userRepository.find();
   }
 
-  async getUsersPreference(id:string):Promise<User>{
+  async getUsersPreference(id:string):Promise<UserEntity>{
     const user = await this.userRepository.findOne({where:{id}});
     if(!user){
       throw new HttpException('NotFound', HttpStatus.NOT_FOUND)
@@ -64,16 +73,16 @@ export class UserPreferencesService {
 
 }
 export class UserSessionsService {
-  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+  constructor(@InjectRepository(UserEntity) private userRepository:Repository<UserEntity>){
   }
 
 
-  async getUsers(): Promise<User[]>{
+  async getUsers(): Promise<UserEntity[]>{
 
     return this.userRepository.find();
   }
 
-  async getUser(id:string):Promise<User>{
+  async getUser(id:string):Promise<UserEntity>{
     const user = await this.userRepository.findOne({where:{id}});
     if(!user){
       throw new HttpException('NotFound', HttpStatus.NOT_FOUND)
@@ -91,16 +100,16 @@ export class UserSessionsService {
 
 }
 export class SuggestionsService {
-  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+  constructor(@InjectRepository(UserEntity) private userRepository:Repository<UserEntity>){
   }
 
 
-  async getUsers(): Promise<User[]>{
+  async getUsers(): Promise<UserEntity[]>{
 
     return this.userRepository.find();
   }
 
-  async getUser(id:string):Promise<User>{
+  async getUser(id:string):Promise<UserEntity>{
     const user = await this.userRepository.findOne({where:{id}});
     if(!user){
       throw new HttpException('NotFound', HttpStatus.NOT_FOUND)
@@ -118,16 +127,16 @@ export class SuggestionsService {
 
 }
 export class Notifications {
-  constructor(@InjectRepository(User) private userRepository:Repository<User>){
+  constructor(@InjectRepository(UserEntity) private userRepository:Repository<UserEntity>){
   }
 
 
-  async getUsers(): Promise<User[]>{
+  async getUsers(): Promise<UserEntity[]>{
 
     return this.userRepository.find();
   }
 
-  async getUser(id:string):Promise<User>{
+  async getUser(id:string):Promise<UserEntity>{
     const user = await this.userRepository.findOne({where:{id}});
     if(!user){
       throw new HttpException('NotFound', HttpStatus.NOT_FOUND)

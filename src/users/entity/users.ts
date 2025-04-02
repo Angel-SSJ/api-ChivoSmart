@@ -1,4 +1,12 @@
-import {Entity, PrimaryGeneratedColumn, Column,OneToMany,} from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import {
   IsDateString,
   IsEmail,
@@ -13,38 +21,38 @@ import {
 import { NotificationsDto, UserSessionsDto } from '../dto/userDto';
 
 @Entity({name:'users'})
-export class User {
+export class Users {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  firstName_name: string;
+  @Column({nullable:false})
+  first_name: string;
 
-  @Column()
+  @Column({nullable:false})
   last_name: string;
 
-  @Column()
+  @Column({unique:true, nullable:false})
   email: string;
 
-  @Column()
+  @Column({nullable:false})
   password: string;
 
 
-  @Column()
+ /* @Column({nullable:false})
   birthday: Date;
 
 
 
-  @Column()
+  @CreateDateColumn()
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
-
+*/
   /*
   @OneToMany(()=>UserPreference, user_preferences_id=> user_preferences_id.user_id, {cascade:true, eager:true})
   user_preferences_id:UserPreference[]
@@ -67,8 +75,8 @@ export class UserPreference{
   id:string;
 
   //TODO: ver como se puede vincular con id de user.
-  @OneToMany(()=>User, (user_id)=>user_id.user_preferences_id, {cascade:true, eager:true})
-  user_id:User;
+  @OneToMany(()=>UserEntity, (user_id)=>user_id.user_preferences_id, {cascade:true, eager:true})
+  user_id:UserEntity;
 
   //@Column()
   //theme:string;
@@ -93,8 +101,8 @@ export class UserSessions{
   id:string;
 
 
-  @OneToMany(()=>User, (user_id)=>user_id.user_sessions_id, {cascade:true, eager:true})
-  user_id:User;
+  @OneToMany(()=>UserEntity, (user_id)=>user_id.user_sessions_id, {cascade:true, eager:true})
+  user_id:UserEntity;
 
   @Column()
   date:Date;
@@ -151,8 +159,8 @@ export class Notifications{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
-  @OneToMany(()=>User, (user_id)=>user_id.user_notifications_id, {cascade:true, eager:true})
-  user_id:User;
+  @OneToMany(()=>UserEntity, (user_id)=>user_id.user_notifications_id, {cascade:true, eager:true})
+  user_id:UserEntity;
 
   @Column()
   title:string

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Post, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable,UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../users/user.service';
 
 import { RegisterDto } from './Dto/registerDto';
@@ -28,7 +28,6 @@ constructor(private readonly userService: UserService,
       password: await bcrypt.hash(password, 10)
     })
 
-    return user
   }
 
   async login({email,password }:LoginDto){
@@ -39,10 +38,12 @@ constructor(private readonly userService: UserService,
 
     if(!isPasswordValid){throw new UnauthorizedException('password is wrong'); }
 
-    const payload={email:user.email, sub:user.id};
+    const payload={sub:user.id};
+    const access_token = this.jwtService.sign(payload,{expiresIn:'1d'});
+
     return{
-      access_token: await this.jwtService.signAsync(payload),
-      email
+      accessToken: access_token,
+      message: 'Login successfully',
     }
 
   }

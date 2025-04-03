@@ -11,19 +11,7 @@ export class UserService {
     @InjectRepository(Users)
     private readonly userRepository:Repository<Users>){}
 
-
-  async createUser(user):Promise<void>{
-    await this.userRepository.save(user);
-  }
-
-  async findOneByEmail(email:string){
-    return this.userRepository.findOneBy({email})
-  }
-
-
-
-  async getUsers(): Promise<Users[]>{
-
+    async getUsers(): Promise<Users[]>{
     return this.userRepository.find();
   }
 
@@ -35,15 +23,22 @@ export class UserService {
     return user;
   }
 
+  async createUser(user):Promise<void>{
+    await this.userRepository.save(user);
+  }
 
-
+  async findOneByEmail(email:string){
+    return this.userRepository.findOneBy({email})
+  }
   async deleteUser(id:string){
     await this.userRepository.delete({id});
   }
-  //TODO: update user
 
 }
 
+
+
+//IT IS PAUSED
 /*
 export class UserPreferencesService {
   constructor(@InjectRepository(UserEntity) private userRepository:Repository<UserEntity>){

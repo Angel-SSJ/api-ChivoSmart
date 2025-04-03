@@ -39,6 +39,17 @@ export class Users {
   password: string;
 
 
+  //TODO:Update
+  //birthday:Date;
+  //created_at:Date;
+  //deleted_at:Date;
+  //updated_at:Date;
+  // profile_picture:en duda, talvez sea uuid
+// fcm_token:En duda, no se si se va a usar como string o que / es string
+
+  //TODO:Update
+  //conexiones entre las tablas de users
+
  /* @Column({nullable:false})
   birthday: Date;
 

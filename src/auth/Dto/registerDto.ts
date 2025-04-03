@@ -1,4 +1,4 @@
-import { IsDateString, IsEmail, IsISO8601, IsNotEmpty, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+import {IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class RegisterDto{

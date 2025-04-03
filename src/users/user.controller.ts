@@ -36,16 +36,15 @@ export class UserController {
 
   }
 
-  /*@Patch('/:id')
+  /*//TODO:
+  //Update birthday
+  //Update password
+  //Update email
+  //Update firstname
+  //Update lastname
+  @Patch('/:id')
 async updateDescription(@Body() descriptionDto: UpdatedescriptionDto, @Param('id',new ParseUUIDPipe()) id:string){
   return await this.recipeService.updateDescription(id,descriptionDto.description);
-
-  //TODO: add a update
-    firstname
-    lastname
-    email
-    password
-    birthday
 }
 */
 

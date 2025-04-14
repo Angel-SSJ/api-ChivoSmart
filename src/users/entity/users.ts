@@ -6,6 +6,8 @@ import {
   DeleteDateColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import {
   IsDateString,
@@ -38,24 +40,10 @@ export class Users {
   @Column({nullable:false})
   password: string;
 
+  @Column({type: 'date',nullable:false})
+  birthday:Date;
 
-  //TODO:Update
-  //birthday:Date;
-  //created_at:Date;
-  //deleted_at:Date;
-  //updated_at:Date;
-  // profile_picture:en duda, talvez sea uuid
-// fcm_token:En duda, no se si se va a usar como string o que / es string
-
-  //TODO:Update
-  //conexiones entre las tablas de users
-
- /* @Column({nullable:false})
-  birthday: Date;
-
-
-
-  @CreateDateColumn()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
   @DeleteDateColumn()
@@ -63,46 +51,56 @@ export class Users {
 
   @UpdateDateColumn()
   updated_at:Date;
-*/
-  /*
-  @OneToMany(()=>UserPreference, user_preferences_id=> user_preferences_id.user_id, {cascade:true, eager:true})
-  user_preferences_id:UserPreference[]
 
-  @OneToMany(()=>UserSessions, user_sessions_id=> user_sessions_id.user_id, {cascade:true, eager:true})
-  user_sessions_id:UserSessions[]
+  @Column({nullable:false})
+  profile_picture:string;
 
-  @OneToMany(()=>Notifications,user_notifications_id=>user_notifications_id.user_id, {cascade:true, eager:true})
-  user_notifications_id:Notifications[]
-  */
+  @Column({nullable:false})
+  fcm_token:string;
 
-// profile_picture:en duda, talvez sea uuid
-// fcm_token:En duda, no se si se va a usar como string o que / es string
+  //TODO:Update
+  //conexiones entre las tablas de users
+
+  @OneToOne(()=>UserPreference,(userPreference)=>userPreference.id, {cascade:true, eager:true})
+  user_preference_id:UserPreference[];
+
+  @OneToMany(()=>UserSessions,(userSessions)=>userSessions.id, {cascade:true, eager:true})
+  user_sessions:UserSessions[];
+
+  @ManyToOne(()=>Notifications,(notifications)=>notifications.id, {cascade:true, eager:true})
+  user_notifications:Notifications[];
 }
 
-/*
-@Entity({name:'user_preferences'})
+
+@Entity({name:'user_preference'})
 export class UserPreference{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
-  //TODO: ver como se puede vincular con id de user.
-  @OneToMany(()=>UserEntity, (user_id)=>user_id.user_preferences_id, {cascade:true, eager:true})
-  user_id:UserEntity;
 
-  //@Column()
-  //theme:string;
+  @Column()
+  theme:string;
+
+
+  @Column()
+  language:string;
 
   @Column()
   suggestion_frequency:string;
 
-  @Column()
+  @OneToOne(()=>Users, (users)=>users.id, {cascade:true, eager:true})
+  user_id:Users[];
+
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
+
+
 }
 
 @Entity({name:'user_sessions'})
@@ -111,18 +109,21 @@ export class UserSessions{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
-
-  @OneToMany(()=>UserEntity, (user_id)=>user_id.user_sessions_id, {cascade:true, eager:true})
-  user_id:UserEntity;
-
-  @Column()
-  date:Date;
-
   @Column()
   status:string;
 
   @Column()
   device:string;
+
+
+
+  @Column({type: 'date',nullable:false})
+  date:Date;
+
+  @ManyToOne(()=>Users, (users)=>users.id, {cascade:true, eager:true})
+  user_id:Users[];
+
+
 
 }
 
@@ -138,8 +139,9 @@ export class Suggestions{
   @Column()
   description:string;
 
-  @Column()
-  content:JSON; // a json that can contains multiple information
+
+  @Column({type: 'json',nullable:false})
+  content:string; // a json that can contains multiple information
 
 
   @Column()
@@ -148,19 +150,20 @@ export class Suggestions{
   @Column()
   frequency:number;
 
-  @Column()
+
+  @Column({type: 'timestamp',nullable:false})
   start_date:Date;
 
-  @Column()
+  @Column({type: 'timestamp',nullable:false})
   end_date:Date;
 
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 }
 
@@ -170,8 +173,9 @@ export class Notifications{
   @PrimaryGeneratedColumn('uuid')
   id:string;
 
-  @OneToMany(()=>UserEntity, (user_id)=>user_id.user_notifications_id, {cascade:true, eager:true})
-  user_id:UserEntity;
+
+  @OneToMany(()=>Users, (users)=>users.id, {cascade:true, eager:true})
+  user_id:Users[];
 
   @Column()
   title:string
@@ -182,18 +186,18 @@ export class Notifications{
   @Column()
   description:string;
 
-  @Column()
+  @Column({type: 'json',nullable:false})
   data:string; // a json that can contains multiple information
 
-
-
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 }
- */
+
+
+//TODO: posible un notifications-token table

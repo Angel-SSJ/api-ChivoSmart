@@ -4,7 +4,7 @@ import { UserController } from './users/user.controller';
 import { UserService } from './users/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './users/user.module';
-import { Users } from './users/entity/users';
+import { Users,UserPreference,UserSessions,Suggestions,Notifications } from './users/entity/users';
 import { validate } from './config/env.validation';
 import { AuthModule } from './auth/auth.module';
 
@@ -25,7 +25,7 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [Users],
+        entities: [Users,UserPreference,UserSessions,Suggestions,Notifications],
         synchronize: false,
         // configService.get<boolean>('DB_SYNCHRONIZATION'),
         logging: configService.get<boolean>('DB_LOGGING'),

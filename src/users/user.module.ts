@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserController ,UserPreferenceController,UserSessionsController,SuggestionsController,NotificationsController} from './user.controller';
+import { UserService,UserPreferenceService, UserSessionsService, SuggestionsService,NotificationsService } from './user.service';
 import { Users } from './entity/users';
 
 import {TypeOrmModule} from '@nestjs/typeorm';
@@ -10,8 +10,8 @@ import { RegisteredCardsModule } from 'src/registeredCards/registeredCards.modul
 
 
 @Module({
-  controllers: [UserController],
-  providers: [UserService],
+  controllers: [UserController,UserPreferenceController,UserSessionsController,SuggestionsController,NotificationsController],
+  providers: [UserService,UserPreferenceService, UserSessionsService, SuggestionsService,NotificationsService],
   imports:[TypeOrmModule.forFeature([Users]),OwnCardsModule, RegisteredCardsModule],
   exports:[UserService]
 })

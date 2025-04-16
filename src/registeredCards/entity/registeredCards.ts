@@ -30,8 +30,8 @@ export class RegisteredCards {
   @UpdateDateColumn()
   updated_at:Date;
 
-  @ManyToOne(()=>TypesRegisteredCard,(typesRegisteredCard)=>typesRegisteredCard.name, {cascade:true,eager:true})
-  card_type_name:TypesRegisteredCard[];
+  @ManyToOne(()=>TypesRegisteredCards,(typesRegisteredCard)=>typesRegisteredCard.name, {cascade:true,eager:true})
+  card_type_name:TypesRegisteredCards[];
 
   @ManyToOne(()=>Banks,(banks)=>banks.id, {cascade:true,eager:true})
   bank_id:Banks[];
@@ -72,7 +72,7 @@ export class UserRegisteredCards {
 }
 
 @Entity({name:'registered_card_types'})
-export class TypesRegisteredCard{
+export class TypesRegisteredCards{
 
   @PrimaryGeneratedColumn('uuid')
   id: string;

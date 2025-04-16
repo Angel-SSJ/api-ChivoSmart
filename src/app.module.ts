@@ -10,7 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { OwnCardsModule } from './ownCards/ownCards.module';
 import { OwnCards , UserOwnCards, TypesOwnCard} from './ownCards/entity/ownCards';
 import { RegisteredCardsModule } from './registeredCards/registeredCards.module';
-import { RegisteredCards, UserRegisteredCards,TypesRegisteredCard,Banks } from './registeredCards/entity/registeredCards';
+import { RegisteredCards, UserRegisteredCards, TypesRegisteredCards,Banks } from './registeredCards/entity/registeredCards';
 import { TransactionsModule } from './transactions/transactions.module';
 import { Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions  } from './transactions/entity/transactions';
 
@@ -32,7 +32,7 @@ import { Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactio
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [Users,UserPreference,UserSessions,Suggestions,Notifications,OwnCards, UserOwnCards, TypesOwnCard,RegisteredCards, UserRegisteredCards,TypesRegisteredCard,Banks,Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions],
+        entities: [Users,UserPreference,UserSessions,Suggestions,Notifications,OwnCards, UserOwnCards, TypesOwnCard,RegisteredCards, UserRegisteredCards,TypesRegisteredCards,Banks,Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions],
         synchronize: false,
         // configService.get<boolean>('DB_SYNCHRONIZATION'),
         logging: configService.get<boolean>('DB_LOGGING'),

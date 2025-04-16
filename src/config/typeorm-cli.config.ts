@@ -12,7 +12,7 @@ import {Users,UserPreference,UserSessions,Suggestions,Notifications} from '../us
 import {config} from 'dotenv';
 import {Migrations1743373783230} from  '../migrations/1743373783230-migrations';
 import { OwnCards,UserOwnCards, TypesOwnCard} from 'src/ownCards/entity/ownCards';
-import { RegisteredCards, UserRegisteredCards,TypesRegisteredCard,Banks } from 'src/registeredCards/entity/registeredCards';
+import { RegisteredCards, UserRegisteredCards,TypesRegisteredCards,Banks } from 'src/registeredCards/entity/registeredCards';
 import { Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions } from 'src/transactions/entity/transactions';
 
 
@@ -29,6 +29,6 @@ export default new DataSource({
   password:configService.get<string>('DB_PASSWORD'),
   database:configService.get<string>('DB_NAME'),
   logging: configService.get<boolean>('DB_LOGGING'),
-  entities:[Users, UserPreference,UserSessions,Suggestions,Notifications,OwnCards, UserOwnCards, TypesOwnCard,TypesOwnCard,RegisteredCards, UserRegisteredCards,TypesRegisteredCard,Banks,Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions],
+  entities:[Users, UserPreference,UserSessions,Suggestions,Notifications,OwnCards, UserOwnCards, TypesOwnCard,TypesOwnCard,RegisteredCards, UserRegisteredCards,TypesRegisteredCards,Banks,Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions],
   migrations:[Migrations1743373783230],
 });

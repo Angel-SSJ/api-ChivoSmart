@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TransactionsService } from './transactions.service';
-import { TransactionsController } from './transactions.controller';
+import { TransactionsService,TypeTransactionsService,CategoryTransactionsService,ScheduleTransactionsService } from './transactions.service';
+import { TransactionsController,TypeTransactionsController,CategoryTransactionsController, ScheduleTransactionsController } from './transactions.controller';
 import { OwnCardsModule } from 'src/ownCards/ownCards.module';
 import { RegisteredCardsModule } from 'src/registeredCards/registeredCards.module';
 
 @Module({
-  controllers: [TransactionsController],
-  providers: [TransactionsService],
+  controllers: [TransactionsController,TypeTransactionsController,CategoryTransactionsController, ScheduleTransactionsController],
+  providers: [TransactionsService,TypeTransactionsService,CategoryTransactionsService,ScheduleTransactionsService],
   imports:[OwnCardsModule, RegisteredCardsModule],
 })
 export class TransactionsModule {}

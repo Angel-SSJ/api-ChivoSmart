@@ -9,18 +9,6 @@ import {
   OneToOne,
   ManyToOne,
 } from 'typeorm';
-import {
-  IsDateString,
-  IsEmail,
-  IsISO8601,
-  IsNotEmpty,
-  IsString,
-  IsUUID,
-  MaxLength,
-  MinLength,
-  ValidateNested,
-} from 'class-validator';
-import { NotificationsDto, UserSessionsDto } from '../dto/userDto';
 import { UserOwnCards } from 'src/ownCards/entity/ownCards';
 import { UserRegisteredCards } from 'src/registeredCards/entity/registeredCards';
 

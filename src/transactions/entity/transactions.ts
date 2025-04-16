@@ -1,4 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
+import { UserOwnCards } from 'src/ownCards/entity/ownCards';
+import { UserRegisteredCards } from 'src/registeredCards/entity/registeredCards';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm'
 
 @Entity({name:'transactions_cards'})
 export class Transactions {
@@ -7,16 +9,7 @@ export class Transactions {
   id: string;
 
   @Column()
-  amount:string;
-
-  //TODO: tengo que buscar como hacer algo con card, ya que se mezcla con owncards y registeredcards
-  // card:
-
-  @Column()
-  type_transactions:string;
-
-  @Column()
-  category_transactions:string;
+  amount:number;
 
   @Column()
   title:string;
@@ -24,11 +17,7 @@ export class Transactions {
   @Column()
   description:string;
 
-  //TODO: tengo que investigar que hacer para esto ptm
-  // destionation_card:
-  // destination_trade
-
-  @Column()
+  @Column({type:'timestamp', nullable:true})
   date:Date;
 
   @Column()
@@ -37,39 +26,70 @@ export class Transactions {
   @Column()
   decline_reason:string;
 
+
+  @ManyToOne(()=>TypeTransactions, (typeTransactions )=> typeTransactions.name, {cascade:true, eager:true})
+  type_transaction:TypeTransactions[];
+
+  @ManyToOne(()=>CategoryTransactions, (categoryTransactions )=> categoryTransactions.name, {cascade:true, eager:true})
+  category_transaction:CategoryTransactions[];
+
+
+
+
+  @ManyToOne(()=>UserOwnCards,(userOwnCards)=>userOwnCards.id, {cascade:true, eager:true})
+  card_own:UserOwnCards[];
+
+  @ManyToOne(()=>UserRegisteredCards, (userRegisteredCards )=>userRegisteredCards.id, {cascade:true, eager:true})
+  card_registered:UserRegisteredCards[];
+
+  @ManyToOne(()=>UserRegisteredCards, (userRegisteredCards )=>userRegisteredCards.id, {cascade:true, eager:true})
+  destination_registered_card:UserRegisteredCards[];
+  @ManyToOne(()=>UserOwnCards,(userOwnCards)=>userOwnCards.id, {cascade:true, eager:true})
+  destination_own_card:UserOwnCards[];
+
+
+  //TODO: tengo que investigar que hacer para esto ptm
+  // destination_trade
+
+
+
 }
 
 
 @Entity({name:'transactions_type'})
-export class TransactionsType{
+export class TypeTransactions {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  name:string;
   @Column()
+  name:string;
+
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 
 }
 
-@Entity({name:'transactions_category'})
-export class TransactionsCategory{
+@Entity({name:'transaction_category'})
+export class CategoryTransactions {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  name:string;
   @Column()
+  name:string;
+
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 
 }
@@ -83,19 +103,6 @@ export class ScheduleTransactions{
   @Column()
   amount:number;
 
-  //TODO: tengo que investigar que hacer para esto ptm
-  // card:
-
-  @Column()
-  category_transactions:string;
-
-  @Column()
-  type_transactions:string;
-
-  //TODO: tengo que investigar que hacer para esto ptm
-  // destionation_card:
-  // destination_trade
-
   @Column()
   title:string;
 
@@ -103,24 +110,50 @@ export class ScheduleTransactions{
   description:string;
 
   @Column()
-  date:Date;
-
-  @Column()
   status:string;
 
   @Column()
   decline_reason:string;
 
-  //TODO: tengo que ver que hago con frequency
-  // frequency:string;
+  @Column()
+  limit:number;
+
+  @Column({type:'timestamp',nullable:true})
+  date:Date;
 
   @Column()
-  limit:string;
+  frequency:string;
 
-  @Column()
+  @Column({type:'timestamp',nullable:true})
   start_date:Date;
 
-  @Column()
+  @Column({type:'timestamp',nullable:true})
   end_date:Date;
+
+
+
+  @ManyToOne(()=>TypeTransactions, (typeTransactions )=> typeTransactions.name, {cascade:true, eager:true})
+  type_transaction:TypeTransactions[];
+
+  @ManyToOne(()=>CategoryTransactions, (categoryTransactions )=> categoryTransactions.name, {cascade:true, eager:true})
+  category_transaction:CategoryTransactions[];
+
+
+  @ManyToOne(()=>UserOwnCards,(userOwnCards)=>userOwnCards.id, {cascade:true, eager:true})
+  card_own:UserOwnCards[];
+
+  @ManyToOne(()=>UserRegisteredCards, (userRegisteredCards )=>userRegisteredCards.id, {cascade:true, eager:true})
+  card_registered:UserRegisteredCards[];
+
+  @ManyToOne(()=>UserRegisteredCards, (userRegisteredCards )=>userRegisteredCards.id, {cascade:true, eager:true})
+  destination_registered_card:UserRegisteredCards[];
+  @ManyToOne(()=>UserOwnCards,(userOwnCards)=>userOwnCards.id, {cascade:true, eager:true})
+  destination_own_card:UserOwnCards[];
+
+
+  //TODO: tengo que investigar que hacer para esto ptm
+  // destination_trade
+
+
   
 }

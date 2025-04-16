@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
+import { Users } from 'src/users/entity/users';
+import {Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, DeleteDateColumn, UpdateDateColumn, OneToMany, OneToOne, ManyToOne} from 'typeorm'
 
 @Entity({name:'own_cards'})
 export class OwnCards {
@@ -9,26 +10,28 @@ export class OwnCards {
   @Column()
   card_number:number;
 
-  @Column()
+  @Column({type:'timestamp', nullable:false})
   expiration_date:Date;
 
   @Column()
   cvv:number;
 
-  @Column()
-  card_type:string;
+
 
   @Column()
   amount:number;
 
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
+
+  @ManyToOne(()=>TypesOwnCard, (typesOwnCard)=>typesOwnCard.name,{cascade:true,eager:true})
+  card_type_name:TypesOwnCard[]
 
 }
 
@@ -38,27 +41,28 @@ export class UserOwnCards{
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  //TODO: ver como habgo para conectar con los IDs
-  @Column()
-  user_id:string;
 
-  @Column()
-  own_card_id:string;
 
   @Column()
   name:string;
 
   @Column()
-  status;string;
+  status:string;
 
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
+
+  @ManyToOne(()=>Users, (users)=>users.id,{cascade:true,eager:true})
+  user_id:Users[];
+
+  @OneToOne(()=>OwnCards, (ownCards)=>ownCards.id,{cascade:true, eager:true})
+  own_card_id:OwnCards[];
 
 
 
@@ -74,17 +78,18 @@ export class TypesOwnCard{
 
   @Column()
   name:string;
-  //TODO: ver si se puede usar uuid
-  // logo:string;
 
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
+
+  @Column({nullable:true})
+  cards_logo:string;
 
 
 }

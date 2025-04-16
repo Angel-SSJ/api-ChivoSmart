@@ -21,6 +21,8 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { NotificationsDto, UserSessionsDto } from '../dto/userDto';
+import { UserOwnCards } from 'src/ownCards/entity/ownCards';
+import { UserRegisteredCards } from 'src/registeredCards/entity/registeredCards';
 
 @Entity({name:'users'})
 export class Users {
@@ -69,6 +71,12 @@ export class Users {
 
   @ManyToOne(()=>Notifications,(notifications)=>notifications.id, {cascade:true, eager:true})
   user_notifications:Notifications[];
+
+  @OneToMany(()=>UserOwnCards,(userOwnCards)=>userOwnCards.id, {cascade:true, eager:true})
+  user_own_cards:UserOwnCards[];
+
+  @OneToMany(()=>UserRegisteredCards, (userRegisteredCards)=> userRegisteredCards.id, {cascade:true, eager:true})
+  user_registered_cards:UserRegisteredCards[]
 }
 
 

@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from 'typeorm'
+import { Users } from 'src/users/entity/users';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, OneToMany} from 'typeorm'
 
 @Entity({name:'registered_cards'})
 export class RegisteredCards {
@@ -10,30 +11,33 @@ export class RegisteredCards {
   card_number:number;
 
   @Column()
-  expiration_date:Date;
-
-  @Column()
   cvv:number;
 
-  @Column()
-  card_type:string;
-
-  //TODO: ver como habgo para conectar con los IDs
-  // @Column()
-  //  bank_id:string;
 
   @Column()
   amount:number;
 
-  @Column()
+
+  @Column({type: 'timestamp',nullable:false})
+  expiration_date:Date;
+
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 
+  @ManyToOne(()=>TypesRegisteredCard,(typesRegisteredCard)=>typesRegisteredCard.name, {cascade:true,eager:true})
+  card_type_name:TypesRegisteredCard[];
+
+  @ManyToOne(()=>Banks,(banks)=>banks.id, {cascade:true,eager:true})
+  bank_id:Banks[];
+
+  @ManyToOne(()=>UserRegisteredCards,(userRegisteredCards)=>userRegisteredCards.id, {cascade:true,eager:true})
+  user_registered_cards_id:UserRegisteredCards[];
 }
 
 @Entity({name:'user_registered_cards'})
@@ -42,29 +46,28 @@ export class UserRegisteredCards{
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  //TODO: ver como habgo para conectar con los IDs
-  @Column()
-  user_id:string;
 
-  @Column()
-  own_registered_id:string;
 
   @Column()
   name:string;
 
   @Column()
-  status;string;
+  status:string;
 
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 
+  @ManyToOne(()=>Users,(users)=>users.id, {cascade:true,eager:true})
+  user_id:Users[];
 
+  @OneToMany(()=>RegisteredCards,(registeredCards)=>registeredCards.id, {cascade:true,eager:true})
+  own_registered_id:RegisteredCards[];
 
 }
 
@@ -78,17 +81,22 @@ export class TypesRegisteredCard{
 
   @Column()
   name:string;
-  //TODO: ver si se puede usar uuid
-  // logo:string;
 
-  @Column()
+  @Column({nullable:true})
+  registered_card_logo:string;
+
+
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
+
+  @OneToMany(()=>RegisteredCards,(registeredCards)=>registeredCards.id, {cascade:true,eager:true})
+  registered_card_id:RegisteredCards[];
 
 
 }
@@ -102,22 +110,22 @@ export class Banks{
   @Column()
   name:string;
 
-  //TODO: ver si se puede usar uuid
-  // logo:string;
+  @Column({nullable:true})
+  bank_logo:string;
 
   @Column()
   status:string;
 
-//TODO:  caretuda: nose que quise escribir
-  
-  @Column()
+  @CreateDateColumn({type:'timestamp'})
   created_at:Date;
 
-  @Column()
+  @DeleteDateColumn()
   deleted_at:Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at:Date;
 
+  @OneToMany(()=>RegisteredCards,(registeredCards)=>registeredCards.id, {cascade:true,eager:true})
+  registered_card_id:RegisteredCards[];
 
 }

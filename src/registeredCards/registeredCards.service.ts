@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRegisteredCardDto } from './dto/createRegisteredCard.dto';
-import { UpdateRegisteredCardDto } from './dto/updateRegisteredCard.dto';
+import { RegisteredCardsDto } from './dto/createRegisteredCard.dto';
+import { UpdateRegisteredCardsDto } from './dto/updateRegisteredCard.dto';
 
 @Injectable()
 export class RegisteredCardsService {
-  create(createRegisteredCardDto: CreateRegisteredCardDto) {
+  create(createRegisteredCardDto:RegisteredCardsDto) {
     return 'This action adds a new registeredCard';
   }
 
@@ -16,7 +16,7 @@ export class RegisteredCardsService {
     return `This action returns a #${id} registeredCard`;
   }
 
-  update(id: number, updateRegisteredCardDto: UpdateRegisteredCardDto) {
+  update(id: number, updateRegisteredCardDto:UpdateRegisteredCardsDto) {
     return `This action updates a #${id} registeredCard`;
   }
 

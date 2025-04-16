@@ -55,7 +55,6 @@ export class Transactions {
 
 }
 
-
 @Entity({name:'transactions_type'})
 export class TypeTransactions {
   @PrimaryGeneratedColumn('uuid')

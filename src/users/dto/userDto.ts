@@ -1,9 +1,13 @@
-import { ValidateNested,IsJSON,MinLength,IsString,IsUUID, IsNotEmpty,IsEmail,IsISO8601, IsDateString,MaxLength} from 'class-validator';
+import { ValidateNested,IsJSON,MinLength,IsString,IsUUID, IsNotEmpty,IsEmail,IsISO8601, IsDateString,MaxLength, IsDate} from 'class-validator';
 import { Transform, Type } from 'class-transformer';
+import { UserOwnCardsDto } from 'src/ownCards/dto/createOwnCard.dto';
+import { UserRegisteredCardsDto } from 'src/registeredCards/dto/createRegisteredCard.dto';
+
 
 export class UserDto {
   @IsUUID()
   id: string;
+
   @Transform(({value})=> value.trim())
   @IsNotEmpty()
   @IsString()
@@ -13,6 +17,7 @@ export class UserDto {
   @Transform(({value})=> value.trim())
   @IsNotEmpty()
   @IsString()
+  @MinLength(3)
   last_name: string;
 
   @IsNotEmpty()
@@ -24,41 +29,55 @@ export class UserDto {
   @MinLength(8)
   password: string;
 
-
-  //@IsISO8601(undefined,{each:true})
-  //@IsDateString(undefined,{each:true})
-  //@MaxLength(50, {each:true})
-  //@Transform(birthday => moment(birthday).format('DD/MM/YY')
-  //birthday: Date;
+  //@Transform((birthday)=>Date('DD/MM/YY'), (value)=> new Date(value))
+  @IsNotEmpty()
+  @IsDate()
+  birthday:Date;
 
 
 
-  //@IsISO8601(undefined,{each:true})
-  //@IsDateString(undefined,{each:true})
-  //@MaxLength(50, {each:true})
-  //created_at:Date;
+  @IsNotEmpty()
+  @IsDate()
+  created_at:Date;
 
-  //@IsISO8601(undefined,{each:true})
-  //@IsISO8601(undefined,{each:true})
-  //@IsDateString(undefined,{each:true})
-  //@MaxLength(50, {each:true})
-  //deleted_at:Date;
+  @IsDate()
+  deleted_at:Date;
 
-  //@IsISO8601(undefined,{each:true})
-  //@IsISO8601(undefined,{each:true})
-  //@IsDateString(undefined,{each:true})
-  //@MaxLength(50, {each:true})
- // updated_at:Date;
 
- //@ValidateNested({each:true})
-  //@Type(()=>UserPreferenceDto)
-  //user_preferences_id:UserPreferenceDto[]
+  @IsDate()
+  updated_at:Date;
 
-  //@Type(()=>UserSessionsDto)
-  //user_sessions_id:UserSessionsDto[]
+  @Transform(({value})=> value.trim())
+  @IsString()
+  profile_picture:string;
 
-  //@Type(()=>NotificationsDto)
-  //user_notifications_id:NotificationsDto[]
+  @Transform(({value})=> value.trim())
+  @IsString()
+  fcm_token:string;
+
+  @ValidateNested({each:true})
+  @Type(()=>UserPreferenceDto)
+  user_preference_id:UserPreferenceDto[];
+
+  @ValidateNested({each:true})
+  @Type(()=>UserSessionsDto)
+  user_sessions:UserSessionsDto[];
+
+  @ValidateNested({each:true})
+  @Type(()=>NotificationsDto)
+  user_notifications:NotificationsDto[];
+
+  @ValidateNested({each:true})
+  @Type(()=>UserOwnCardsDto)
+  user_own_cards:UserOwnCardsDto[]
+
+  @ValidateNested({each:true})
+  @Type(()=>UserRegisteredCardsDto)
+  user_registered_cards:UserRegisteredCardsDto[]
+
+
+
+
 }
 
 
@@ -67,25 +86,28 @@ export class UserPreferenceDto{
   @IsUUID()
   id: string;
 
-  //@Column()
-  //theme:string;
+  @IsString()
+  @IsNotEmpty()
+  theme:string;
 
+  @IsString()
+  @IsNotEmpty()
   suggestion_frequency:string;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsNotEmpty()
+  @IsDate()
   created_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsDate()
   deleted_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsDate()
   updated_at:Date;
+
+  @ValidateNested({each:true})
+  @Type(()=>UserDto)
+  user_id:UserDto[];
+
 }
 
 
@@ -94,12 +116,10 @@ export class UserSessionsDto{
   @IsUUID()
   id: string;
 
-
-
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsNotEmpty()
+  @IsDate()
   date:Date;
+
 
   @IsNotEmpty()
   @IsString()
@@ -109,6 +129,9 @@ export class UserSessionsDto{
   @IsString()
   device:string;
 
+  @ValidateNested({each:true})
+  @Type(()=>UserDto)
+  user_id:UserDto[];
 }
 
 
@@ -126,6 +149,7 @@ export class SuggestionsDto{
   description:string;
 
   @IsJSON()
+  @IsNotEmpty()
   content:JSON; // a json that can contains multiple information
 
 
@@ -138,29 +162,24 @@ export class SuggestionsDto{
   frequency:number;
 
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsNotEmpty()
+  @IsDate()
   start_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsNotEmpty()
+  @IsDate()
   end_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+
+
+  @IsNotEmpty()
+  @IsDate()
   created_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsDate()
   deleted_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsDate()
   updated_at:Date;
 }
 
@@ -183,22 +202,20 @@ export class NotificationsDto{
   description:string;
 
   @IsNotEmpty()
-  @IsString()
-  data:string; // a json that can contains multiple information
+  @IsJSON()
+  data:JSON; // a json that can contains multiple information
 
-
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsNotEmpty()
+  @IsDate()
   created_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsDate()
   deleted_at:Date;
 
-  @IsISO8601(undefined,{each:true})
-  @IsDateString(undefined,{each:true})
-  @MaxLength(50, {each:true})
+  @IsDate()
   updated_at:Date;
+
+  @ValidateNested({each:true})
+  @Type(()=>UserDto)
+  user_id:UserDto;
 }

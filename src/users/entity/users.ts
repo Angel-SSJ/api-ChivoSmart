@@ -60,8 +60,6 @@ export class Users {
   @Column({nullable:false})
   fcm_token:string;
 
-  //TODO:Update
-  //conexiones entre las tablas de users
 
   @OneToOne(()=>UserPreference,(userPreference)=>userPreference.id, {cascade:true, eager:true})
   user_preference_id:UserPreference[];
@@ -195,7 +193,7 @@ export class Notifications{
   description:string;
 
   @Column({type: 'json',nullable:false})
-  data:string; // a json that can contains multiple information
+  data:JSON; // a json that can contains multiple information
 
   @CreateDateColumn({type:'timestamp'})
   created_at:Date;

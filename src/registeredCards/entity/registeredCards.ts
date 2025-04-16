@@ -41,7 +41,7 @@ export class RegisteredCards {
 }
 
 @Entity({name:'user_registered_cards'})
-export class UserRegisteredCards{
+export class UserRegisteredCards {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;

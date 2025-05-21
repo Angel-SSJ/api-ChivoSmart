@@ -1,4 +1,4 @@
-name: Build and Push Docker API to GCR
+name: Build and Push Docker API to Artifact Registry
 
 on:
   push:
@@ -13,37 +13,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # 🔐 Autenticación recomendada con auth@v2
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          version: "latest"
-          project_id: chivosmart-app
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
-      - name: Login to GCR
-        uses: docker/login-action@v3
-        with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ secrets.GCP_SA_KEY }}
+      # 🐳 Configura Docker para Artifact Registry
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-docker.pkg.dev
 
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile-api -t gcr.io/chivosmart-app/chivo-smart-api:$GITHUB_SHA .
+          docker build -f Dockerfile-api -t us-docker.pkg.dev/chivosmart-app/chivosmart-api-repo/chivo-smart-api:$GITHUB_SHA .
 
-      - name: Push Docker image to GCR
+      - name: Push Docker image to Artifact Registry
         run: |
-          docker push gcr.io/chivosmart-app/chivo-smart-api:$GITHUB_SHA
+          docker push us-docker.pkg.dev/chivosmart-app/chivosmart-api-repo/chivo-smart-api:$GITHUB_SHA
 
-      - id: "auth"
-        uses: "google-github-actions/auth@v2"
-        with:
-          credentials_json: "${{ secrets.GCP_SA_KEY }}"
-
-      - id: "deploy"
+      - name: Deploy to Cloud Run
         run: |-
           gcloud run deploy chivo-smart-api \
-          --image=gcr.io/chivosmart-app/chivo-smart-api:${{ github.sha }} \
+          --image=us-docker.pkg.dev/chivosmart-app/chivosmart-api-repo/chivo-smart-api:${{ github.sha }} \
           --platform=managed \
           --region=us-central1 \
           --allow-unauthenticated

@@ -3,7 +3,7 @@ name: Build and Push Docker API to GCR
 on:
   push:
     branches:
-      - api-deployment
+      - migration_databases
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           version: "latest"
-          project_id: your-projectid
+          project_id: chivosmart-app
           service_account_key: ${{ secrets.GCP_SA_KEY }}
 
       - name: Login to GCR
@@ -29,11 +29,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile-api -t gcr.io/your-projectid/your-image-name:$GITHUB_SHA .
+          docker build -f Dockerfile-api -t gcr.io/chivosmart-app/chivo-smart-api:$GITHUB_SHA .
 
       - name: Push Docker image to GCR
         run: |
-          docker push gcr.io/your-projectid/your-image-name:$GITHUB_SHA
+          docker push gcr.io/your-projectid/chivo-smart-api:$GITHUB_SHA
 
       - id: "auth"
         uses: "google-github-actions/auth@v2"
@@ -42,8 +42,8 @@ jobs:
 
       - id: "deploy"
         run: |-
-          gcloud run deploy your-image-name \
-          --image=gcr.io/your-projectid/your-image-name:${{ github.sha }} \
+          gcloud run deploy chivo-smart-api \
+          --image=gcr.io/chivosmart-app/chivo-smart-api:${{ github.sha }} \
           --platform=managed \
-          --region=europe-west4 \
+          --region=us-central1 \
           --allow-unauthenticated

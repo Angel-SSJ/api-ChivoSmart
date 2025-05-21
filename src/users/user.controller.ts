@@ -10,8 +10,9 @@ export class UserController {
 
 
   @Get('')
-  async getUsers(user:object){
-    return await this.userService.getUsers(user);
+  async getUsers(req,res){
+    const user= await this.userService.getUsers(req.params.id);
+    return res.json(user)
 
   }
 

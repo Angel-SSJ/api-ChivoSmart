@@ -10,8 +10,8 @@ export class UserController {
 
 
   @Get('')
-  async getUsers(){
-    return await this.userService.getUsers();
+  async getUsers(user:object){
+    return await this.userService.getUsers(user);
 
   }
 

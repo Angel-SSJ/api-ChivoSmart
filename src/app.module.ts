@@ -32,7 +32,7 @@ import { Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactio
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        //socketPath:`/cloudsql/${configService.get<string>('INSTANCE_CONNECTION_NAME')}`,
+        socketPath:`/cloudsql/${configService.get<string>('INSTANCE_CONNECTION_NAME')}`,
         entities: [Users,UserPreference,UserSessions,Suggestions,Notifications,OwnCards, UserOwnCards, TypesOwnCard,RegisteredCards, UserRegisteredCards,TypesRegisteredCards,Banks,Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions],
         synchronize: false,
         // configService.get<boolean>('DB_SYNCHRONIZATION'),

@@ -11,7 +11,7 @@ async function bootstrap() {
     transform:true,
   }));
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('APP_PORT') || 3000;
+  const port = process.env.PORT || configService.get<number>('APP_PORT') || 3000;
   await app.listen(port);
 }
 bootstrap();

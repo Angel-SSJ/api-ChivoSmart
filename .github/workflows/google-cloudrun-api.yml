@@ -38,5 +38,6 @@ jobs:
           --platform=managed \
           --region=us-central1 \
           --allow-unauthenticated \
+          --port=8080 \
           --service-account=github-actions-api@chivosmart-app.iam.gserviceaccount.com
           --add-cloudsql-instances=chivosmart-app:us-central1:chivosmart-database

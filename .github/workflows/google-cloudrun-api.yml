@@ -37,4 +37,5 @@ jobs:
           --image=us-docker.pkg.dev/chivosmart-app/chivosmart-api-repo/chivo-smart-api:${{ github.sha }} \
           --platform=managed \
           --region=us-central1 \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --service-account=github-actions-api@chivosmart-app.iam.gserviceaccount.com

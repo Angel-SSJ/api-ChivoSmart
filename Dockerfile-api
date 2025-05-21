@@ -16,8 +16,8 @@ COPY . .
 # Si usas Typescript, compila el proyecto
 RUN npm run build
 
-ENV PORT 8080
-ENV HOST 0.0.0.0
+ENV PORT=8080
+ENV HOST=0.0.0.0
 # Exponer el puerto que usará la app (usualmente 3000 o el que definas)
 EXPOSE 8080
 

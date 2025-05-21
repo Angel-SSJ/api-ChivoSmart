@@ -19,8 +19,6 @@ RUN npm run build
 # Exponer el puerto que usará la app (usualmente 3000 o el que definas)
 EXPOSE 3000
 
-# Variable de entorno para que la app escuche el puerto asignado por Cloud Run
-ENV PORT=3000
 
 # Comando para iniciar la app ya compilada
 CMD ["node", "dist/main.js"]

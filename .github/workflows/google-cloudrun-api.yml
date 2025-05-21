@@ -33,7 +33,7 @@ jobs:
 
       - name: Push Docker image to GCR
         run: |
-          docker push gcr.io/your-projectid/chivo-smart-api:$GITHUB_SHA
+          docker push gcr.io/chivosmart-app/chivo-smart-api:$GITHUB_SHA
 
       - id: "auth"
         uses: "google-github-actions/auth@v2"

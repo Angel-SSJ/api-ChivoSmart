@@ -39,3 +39,4 @@ jobs:
           --region=us-central1 \
           --allow-unauthenticated \
           --service-account=github-actions-api@chivosmart-app.iam.gserviceaccount.com
+          --add-cloudsql-instances=chivosmart-app:us-central1:chivosmart-database

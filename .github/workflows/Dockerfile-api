@@ -1,22 +1,26 @@
-# Use the official .NET 8.0 SDK image for building the project
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+# Usa una imagen base oficial de Node.js (puede ser alpine para que sea más ligera)
+FROM node:18-alpine
+
+# Directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copy the contents of your project into the Docker image
-COPY . ./
+# Copia los archivos de dependencias para usar cache de Docker
+COPY package*.json ./
 
-# Build and publish the application
-RUN dotnet publish ./your-project-folder/App.Web.Host.csproj -c Release -o out/api
+# Instala las dependencias
+RUN npm install --production
 
-# Use the official .NET 8.0 ASP.NET Core runtime image for running the application
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /app
+# Copia el resto del código fuente
+COPY . .
 
-# Copy the published files from the build stage to the runtime image
-COPY --from=build-env /app/out/api .
+# Si usas Typescript, compila el proyecto
+RUN npm run build
 
-# Expose port 80 for the web application
-EXPOSE 80
+# Exponer el puerto que usará la app (usualmente 3000 o el que definas)
+EXPOSE 3000
 
-# Set the entry point for the application
-ENTRYPOINT ["dotnet", "App.Web.Host.dll"]
+# Variable de entorno para que la app escuche el puerto asignado por Cloud Run
+ENV PORT=3000
+
+# Comando para iniciar la app ya compilada
+CMD ["node", "dist/main.js"]

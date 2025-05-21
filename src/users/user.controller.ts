@@ -4,11 +4,12 @@ import {NotificationsDto, SuggestionsDto, UserDto, UserPreferenceDto, UserSessio
 
 
 @Controller('user')
+
 export class UserController {
   constructor(private userService: UserService) {}
 
 
-  @Get()
+  @Get('')
   async getUsers(){
     return await this.userService.getUsers();
 

@@ -38,6 +38,8 @@ class EnviromentVariables {
   @IsBoolean()
   DB_LOGGING:boolean;
 
+  @IsNotEmpty()
+  INSTANCE_CONNECTION_NAME:string;
 }
 
 export function validate(config: Record<string,unknown>){

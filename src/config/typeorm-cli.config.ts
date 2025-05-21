@@ -23,13 +23,13 @@ const configService=new ConfigService();
 
 export default new DataSource({
   type:'mysql',
-  //host:configService.get<string>('DB_HOST'),
-  //port:configService.get<number>('DB_PORT'),
+  host:configService.get<string>('DB_HOST'),
+  port:configService.get<number>('DB_PORT'),
   username:configService.get<string>('DB_USERNAME'),
   password:configService.get<string>('DB_PASSWORD'),
   database:configService.get<string>('DB_NAME'),
   logging: configService.get<boolean>('DB_LOGGING'),
-  socketPath:`/cloudsql/${configService.get<string>('INSTANCE_CONNECTION_NAME')}`,
+  //socketPath:`/cloudsql/${configService.get<string>('INSTANCE_CONNECTION_NAME')}`,
   entities:[Users, UserPreference,UserSessions,Suggestions,Notifications,OwnCards, UserOwnCards, TypesOwnCard,TypesOwnCard,RegisteredCards, UserRegisteredCards,TypesRegisteredCards,Banks,Transactions, TypeTransactions, CategoryTransactions,ScheduleTransactions],
   migrations:[Migrations1743373783230],
 });

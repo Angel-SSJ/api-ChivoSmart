@@ -18,7 +18,7 @@ RUN npm run build
 
 ENV PORT=8080
 ENV HOST=0.0.0.0
-# Exponer el puerto que usará la app (usualmente 3000 o el que definas)
+# Exponer el puerto que usará la app
 EXPOSE 8080
 
 
